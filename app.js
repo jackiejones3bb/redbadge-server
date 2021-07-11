@@ -9,6 +9,7 @@ const membershipsController = require('./controllers/memberships.controller');
 const programsController = require('./controllers/programs.controller');
 const rewardsController = require('./controllers/rewards.controller');
 
+app.use(require("./middleware/headers"));
 app.use(express.json());
 
 app.use('/users', userController);
