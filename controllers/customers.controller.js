@@ -1,21 +1,23 @@
 const router = require('express').Router();
 const Customer = require('../models/customer');
+const validate = require("../middleware/validateSession");
 
 router.get('/test', (req, res) => {
     res.send('Testing from customers controller');
 })
 
-router.get('/', (req, res) => {
+router.get('/', validate, (req, res) => {
     Customer.findAll()
     .then((customers) => res.status(200).json(customers))
     .catch((err) => res.status(500).json({ message:"No customers found", error:err }));
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', validate, (req, res) => {
     Customer.findAll({
         where: {
           id: req.params.id,
         },
+
       })
     .then((customers) => {
         const statusCode = customers.length === 0 ? 404: 200
@@ -23,7 +25,7 @@ router.get('/:id', (req, res) => {
     .catch((err) => res.status(500).json({ message:"Customer not found", error:err }));
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', validate, (req, res) => {
     Customer.update({
         phone: req.body.phone,
         street: req.body.street,

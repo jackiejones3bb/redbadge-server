@@ -1,17 +1,18 @@
 const router = require('express').Router();
 const Business = require('../models/business');
+const validate = require("../middleware/validateSession");
 
 router.get('/test', (req, res) => {
     res.send('Testing from business controller');
 })
 
-router.get('/', (req, res) => {
+router.get('/', validate, (req, res) => {
     Business.findAll()
     .then((businesses) => res.status(200).json(businesses))
     .catch((err) => res.status(500).json({ message:"No businesses found", error:err }));
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', validate, (req, res) => {
     Business.findAll({
         where: {
           id: req.params.id,
@@ -23,7 +24,7 @@ router.get('/:id', (req, res) => {
     .catch((err) => res.status(500).json({ message:"No business found", error:err }));
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', validate, (req, res) => {
     Business.update({
         name: req.body.name,
         street: req.body.street,

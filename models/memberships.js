@@ -1,6 +1,6 @@
 const Rewards = require('./rewards');
-const User = require('./users');
-const Businesss = require('./business');
+const Customer = require('./customer');
+const Business = require('./business');
 
 const sequelize = require('sequelize');
 const db = require('../db');
@@ -23,7 +23,7 @@ Rewards.belongsTo(Memberships, { constraints: false });
 
 // many-to-many association of Users to Businesses (through memberships table)
 
-User.belongsToMany(Businesss, { through: Memberships });
-Businesss.belongsToMany(User, { through: Memberships });
+Customer.belongsToMany(Business, { through: Memberships });
+Business.belongsToMany(Customer, { through: Memberships });
 
 module.exports = Memberships;
