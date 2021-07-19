@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Business = require('../models/business');
 const validate = require("../middleware/validateSession");
+const LoyaltyProgram = require("../models/loyaltyProgram")
 
 router.get('/test', (req, res) => {
     res.send('Testing from business controller');
@@ -17,6 +18,7 @@ router.get('/:id', validate, (req, res) => {
         where: {
           id: req.params.id,
         },
+        include: [LoyaltyProgram]
       })
     .then((businesses) => {
         const statusCode = businesses.length === 0 ? 404: 200
