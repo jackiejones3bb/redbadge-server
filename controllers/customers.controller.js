@@ -3,6 +3,8 @@ const Customer = require('../models/customer');
 const validate = require("../middleware/validateSession");
 const User = require('../models/users');
 const { Op } = require('sequelize');
+const Memberships = require('../models/memberships');
+const Business = require('../models/business')
 
 router.get('/test', (req, res) => {
     res.send('Testing from customers controller');
@@ -19,7 +21,7 @@ router.get('/:id', validate, (req, res) => {
         where: {
           id: req.params.id,
         },
-
+        include: [User, Business]
       })
     .then((customers) => {
         const statusCode = customers.length === 0 ? 404: 200
