@@ -4,7 +4,7 @@ const sequelize = require('sequelize');
 const db = require('../db');
 
 
-const Businesss = db.define('business', {
+const Business = db.define('business', {
     name: {
         type: sequelize.STRING,
         allowNull: false,
@@ -15,7 +15,7 @@ const Businesss = db.define('business', {
     zip: sequelize.STRING    
 })
 
-Businesss.hasOne(LoyaltyProgram);
-LoyaltyProgram.belongsTo(Businesss);
+Business.hasOne(LoyaltyProgram);
+LoyaltyProgram.belongsTo(Business);
 
-module.exports = Businesss;
+module.exports = Business;

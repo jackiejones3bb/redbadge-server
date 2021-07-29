@@ -32,6 +32,7 @@ router.put('/:id', validate, (req, res) => {
         name: req.body.name,
         numOfPunches: req.body.numOfPunches,
         rewardType: req.body.rewardType,
+        rewardAmount: req.body.rewardAmount
     },{
         where: {
           id: req.params.id,
@@ -48,6 +49,7 @@ router.post('/', validate, (req, res) => {
         name: req.body.name,
         numOfPunches: req.body.numOfPunches,
         rewardType: req.body.rewardType,
+        rewardAmount: req.body.rewardAmount,
         businessId: req.body.busId
     })
 

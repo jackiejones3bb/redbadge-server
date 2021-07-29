@@ -1,6 +1,11 @@
 const router = require('express').Router();
 const Customer = require('../models/customer');
 const validate = require("../middleware/validateSession");
+const User = require('../models/users');
+const { Op } = require('sequelize');
+const Memberships = require('../models/memberships');
+const Business = require('../models/business');
+const LoyaltyProgram = require('../models/loyaltyProgram');
 
 router.get('/test', (req, res) => {
     res.send('Testing from customers controller');
@@ -17,12 +22,39 @@ router.get('/:id', validate, (req, res) => {
         where: {
           id: req.params.id,
         },
-
+        include: [User,{ model: Business, include: [LoyaltyProgram] } ]
       })
     .then((customers) => {
         const statusCode = customers.length === 0 ? 404: 200
         res.status(statusCode).json(customers)})
     .catch((err) => res.status(500).json({ message:"Customer not found", error:err }));
+})
+
+router.post('/search', validate, (req, res) => {
+  Customer.findAll({
+    include: [{
+      model: User,
+      where: {
+        [Op.or]: [
+          {
+            firstName: {
+              [Op.like]: `%${req.body.searchTerm}%`
+            }
+          },
+          {
+            lastName: {
+              [Op.like]: `%${req.body.searchTerm}%`
+            }
+          }
+        ]
+      },
+    }]
+
+    })
+  .then((customers) => {
+      const statusCode = customers.length === 0 ? 404: 200
+      res.status(statusCode).json(customers)})
+  .catch((err) => res.status(500).json({ message:"Customer not found", error:err }));
 })
 
 router.put('/:id', validate, (req, res) => {

@@ -3,7 +3,8 @@ const router = require('express').Router();
 const User = require('../models/users');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const Businesss = require('../models/business');
+const Business = require('../models/business')
+const Customer = require('../models/customer')
 
 router.get('/test', (req, res) => {
     res.send('Testing from user controller');
@@ -82,6 +83,7 @@ router.post("/register-business", (req, res) => {
       where: {
         email: req.body.email,
       },
+      include: [Business, Customer]
     }).then((user) => {
       if (user) {
         //  compare passwords

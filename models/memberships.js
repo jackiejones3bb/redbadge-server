@@ -1,4 +1,4 @@
-const Rewards = require('./rewards');
+
 const Customer = require('./customer');
 const Business = require('./business');
 
@@ -13,13 +13,15 @@ const Memberships = db.define('memberships', {
        autoIncrement: true,
        allowNull: false,
        unique: true
-   }
+   },
+numPunches: {
+    type: sequelize.DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+}
 })
 
-// one-to-many association of rewards to memberships (one membership has many rewards)
 
-Memberships.hasMany(Rewards, { constraints: false }); //was getting error about constraints on the table, this removes the requirement on the relationship to have a unique constraint
-Rewards.belongsTo(Memberships, { constraints: false });
 
 // many-to-many association of Users to Businesses (through memberships table)
 
